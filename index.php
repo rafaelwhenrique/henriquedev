@@ -1,0 +1,1153 @@
+<?php
+// portfolio.php - Dynamic Portfolio with PHP Backend
+
+// Define content arrays for easy maintenance
+$content = [
+    'pt' => [
+        'bio' => 'Durante minha trajetória acadêmica, desenvolvi projetos utilizando Python, incluindo um sistema CLI com funcionalidades de caixa e controle CRUD via painel administrativo. Também utilizei Java para desenvolver um sistema de controle de estoque com autenticação por login, tratamento de exceções e validação através de try catch. Atualmente, trabalho com empresas que ainda não possuem presença digital consolidada, realizando um trabalho consultivo para entender as necessidades do negócio por meio de conversas com gestores, gerentes e responsáveis pela empresa, elaborando orçamentos personalizados para cada projeto. Desenvolvo e-commerces para lojas virtuais e landing pages para divulgação, cuidando de todo o processo, desde o planejamento até a entrega final.',
+        'age_label' => '23 ANOS',
+        'mode_label' => 'MODO ESCURO',
+        'mode_alt' => 'MODO CLARO',
+        'stacks_title' => '// STACKS & FORMAÇÃO',
+        'education_course' => 'TECNÓLOGO ANÁLISE E DESENVOLVIMENTO DE SISTEMAS',
+        'education_date' => 'UNIPLAN · FORMADO 2026',
+        'contact_message' => '📬 Entre em contato: rafaelhenrique@email.com • GitHub: github.com/rafaelwhenrique',
+        'lang_pt' => '🇧🇷 PORTUGUÊS',
+        'lang_en' => '🇺🇸 ENGLISH',
+        'footer_text' => '© 2026 Rafael Henrique',
+        'github_text' => 'GitHub',
+        'linkedin_text' => 'LinkedIn',
+        'contact_text' => 'CONTATO',
+        'dark_mode' => 'MODO ESCURO',
+        'light_mode' => 'MODO CLARO',
+        'projects_title' => '// PROJETOS',
+        'projects_empty_title' => 'Projetos em Desenvolvimento',
+        'projects_empty_message' => 'Estou construindo projetos incríveis que em breve serão compartilhados aqui. Fique atento!'
+    ],
+    'en' => [
+        'bio' => 'During my academic journey, I developed projects using Python, including a CLI system with cash register functionalities and CRUD control via an admin panel. I also used Java to build an inventory management system with login authentication, exception handling, and validation through try catch. Currently, I work with businesses that lack a solid digital presence, taking a consultative approach to understand their needs through conversations with owners, managers, and company stakeholders, creating personalized quotes for each project. I develop e-commerce solutions for online stores and landing pages for promotion, managing the entire process from planning to final delivery.',
+        'age_label' => '23 YEARS',
+        'mode_label' => 'DARK MODE',
+        'mode_alt' => 'LIGHT MODE',
+        'stacks_title' => '// STACKS & EDUCATION',
+        'education_course' => 'SYSTEMS ANALYSIS AND DEVELOPMENT TECHNOLOGIST',
+        'education_date' => 'UNIPLAN · GRADUATED 2026',
+        'contact_message' => '📬 Contact: rafaelhenrique@email.com • GitHub: github.com/rafaelwhenrique',
+        'lang_pt' => '🇧🇷 PORTUGUESE',
+        'lang_en' => '🇺🇸 ENGLISH',
+        'footer_text' => '© 2026 Rafael Henrique',
+        'github_text' => 'GitHub',
+        'linkedin_text' => 'LinkedIn',
+        'contact_text' => 'CONTACT',
+        'dark_mode' => 'DARK MODE',
+        'light_mode' => 'LIGHT MODE',
+        'projects_title' => '// PROJECTS',
+        'projects_empty_title' => 'Projects In Progress',
+        'projects_empty_message' => 'I\'m building amazing projects that will be showcased here soon. Stay tuned!'
+    ]
+];
+
+// Projects data structure - easy to add new projects here
+$projects = [
+    // Example project (uncomment and customize to use):
+    /*
+    [
+        'title' => 'E-Commerce Platform',
+        'description' => 'Plataforma de e-commerce completa com sistema de pagamento.',
+        'description_en' => 'Complete e-commerce platform with payment system integration.',
+        'technologies' => ['PHP', 'JavaScript', 'MySQL', 'Stripe'],
+        'github' => 'https://github.com/rafaelwhenrique/ecommerce',
+        'emoji' => '🛒'
+    ],
+    [
+        'title' => 'Inventory Management System',
+        'description' => 'Sistema de controle de inventário com autenticação.',
+        'description_en' => 'Inventory management system with user authentication.',
+        'technologies' => ['Java', 'JDBC', 'Swing', 'MySQL'],
+        'github' => 'https://github.com/rafaelwhenrique/inventory',
+        'emoji' => '📦'
+    ]
+    */
+];
+
+// Get language preference from session, cookie, or default to 'pt'
+session_start();
+
+// Check if language was passed in URL
+if (isset($_GET['lang']) && in_array($_GET['lang'], ['pt', 'en'])) {
+    $language = $_GET['lang'];
+    $_SESSION['lang'] = $language;
+    setcookie('lang', $language, time() + (365 * 24 * 60 * 60), '/');
+} else {
+    $language = $_SESSION['lang'] ?? $_COOKIE['lang'] ?? 'pt';
+}
+
+// Validate language
+if (!in_array($language, ['pt', 'en'])) {
+    $language = 'pt';
+}
+
+// Set current content
+$current = $content[$language];
+
+// Handle theme preference (light/dark)
+$theme = $_COOKIE['portfolio_theme'] ?? 'dark';
+
+// Handle contact form submission
+$contact_message_sent = false;
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'contact') {
+    $name = htmlspecialchars($_POST['name'] ?? '');
+    $email = htmlspecialchars($_POST['email'] ?? '');
+    $message = htmlspecialchars($_POST['message'] ?? '');
+    
+    // In a real application, you would send an email or save to database
+    // For this demo, we'll just set a flag
+    if ($name && $email && $message) {
+        $contact_message_sent = true;
+        // You could use mail() function or PHPMailer here
+        // mail('rafaelhenrique@email.com', 'Portfolio Contact', $message, "From: $email");
+    }
+}
+?>
+<!DOCTYPE html>
+<html lang="<?php echo $language === 'pt' ? 'pt-BR' : 'en'; ?>">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description"
+        content="<?php echo $language === 'pt' ? 'Rafael Henrique - Portfolio. Desenvolvedor de software, Java, Python, PHP. Landing pages & e-commerce.' : 'Rafael Henrique - Portfolio. Software developer, Java, Python, PHP. Landing pages & e-commerce.'; ?>">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>Rafael Henrique · Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --black: #0a0a0a;
+            --orange: #ff6b1a;
+            --orange-soft: #ff8c42;
+            --dark-surface: #1a1a1a;
+            --gray-light: #e0e0e0;
+            --white: #ffffff;
+            --transition: 0.3s ease;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--black);
+            color: var(--gray-light);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            padding: 1.5rem;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.light-mode {
+            background-color: #faf8f5;
+            color: #1e1e1e;
+            --black: #faf8f5;
+            --dark-surface: #ffffff;
+            --gray-light: #2d2d2d;
+            --white: #0a0a0a;
+        }
+
+        .container {
+            max-width: 980px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
+            padding: 2rem 0;
+        }
+
+        .header {
+            position: relative;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--orange);
+            padding-bottom: 1.8rem;
+            overflow: hidden;
+            min-height: 80px;
+        }
+
+        #headerCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .logo, .badge {
+            position: relative;
+            z-index: 10;
+        }
+
+        .logo h1 {
+            font-size: clamp(2rem, 6vw, 3.2rem);
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: var(--orange);
+            line-height: 1.1;
+        }
+
+        .badge {
+            display: flex;
+            gap: 1.2rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .age-tag {
+            background: var(--dark-surface);
+            padding: 0.5rem 1.2rem;
+            border-radius: 3rem;
+            font-weight: 600;
+            font-size: 1rem;
+            border: 1px solid var(--orange);
+            color: var(--orange);
+            transition: background var(--transition);
+        }
+
+        .dark-toggle {
+            background: transparent;
+            border: 1px solid var(--orange);
+            color: var(--orange);
+            padding: 0.5rem 1.2rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: all var(--transition);
+            background-color: var(--dark-surface);
+        }
+
+        .dark-toggle:hover {
+            background: var(--orange);
+            color: #0a0a0a;
+        }
+
+        .whoami-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .language-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .lang-btn {
+            background: var(--dark-surface);
+            border: 1px solid var(--orange);
+            color: var(--orange);
+            padding: 0.8rem 2rem;
+            border-radius: 2.5rem;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            flex: 0 1 auto;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .lang-btn.active {
+            background: var(--orange);
+            color: #0a0a0a;
+            border-color: var(--orange);
+            font-weight: 700;
+        }
+
+        .bio-card {
+            background: var(--dark-surface);
+            border-left: 4px solid var(--orange);
+            padding: 2rem;
+            border-radius: 1.2rem;
+            font-size: 1.1rem;
+            line-height: 1.7;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            transition: background var(--transition);
+            min-height: 200px;
+        }
+
+        .stacks-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1.8rem;
+        }
+
+        .stack-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--orange);
+            border-bottom: 2px dashed var(--orange-soft);
+            padding-bottom: 0.5rem;
+        }
+
+        .tech-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            align-items: center;
+        }
+
+        .tech-item {
+            background: var(--dark-surface);
+            padding: 0.8rem 1.8rem;
+            border-radius: 2rem;
+            font-weight: 700;
+            font-size: 1.2rem;
+            letter-spacing: 0.3px;
+            border: 1px solid var(--orange);
+            color: var(--orange);
+            transition: 0.2s;
+        }
+
+        .education {
+            background: var(--dark-surface);
+            padding: 1.5rem 2rem;
+            border-radius: 1.2rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid var(--orange-soft);
+        }
+
+        .education p {
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        .github-link {
+            color: var(--orange);
+            font-weight: 700;
+            text-decoration: none;
+            border-bottom: 2px solid transparent;
+            transition: border var(--transition);
+            font-size: 1.2rem;
+        }
+
+        .github-link:hover {
+            border-bottom: 2px solid var(--orange);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: var(--dark-surface);
+            padding: 2rem;
+            border-radius: 1.2rem;
+            max-width: 500px;
+            width: 90%;
+            border-left: 4px solid var(--orange);
+        }
+
+        .modal-content h3 {
+            color: var(--orange);
+            margin-bottom: 1rem;
+        }
+
+        .modal-content input,
+        .modal-content textarea {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--orange);
+            background: var(--black);
+            color: var(--gray-light);
+            border-radius: 0.5rem;
+            font-family: inherit;
+        }
+
+        .modal-content button {
+            background: var(--orange);
+            color: #0a0a0a;
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 2rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-right: 0.5rem;
+        }
+
+        .close-modal {
+            background: transparent;
+            border: 1px solid var(--orange);
+            color: var(--orange);
+        }
+
+        .footer {
+            margin-top: 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 2px solid var(--orange);
+            padding-top: 2rem;
+            font-size: 1rem;
+            color: var(--gray-light);
+        }
+
+        .footer a {
+            color: var(--orange);
+            text-decoration: none;
+            font-weight: 600;
+            margin-left: 1.5rem;
+        }
+
+        .footer-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .cta-button {
+            background: var(--orange);
+            color: #0a0a0a;
+            padding: 0.8rem 2rem;
+            border-radius: 2.5rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: transform 0.2s, background 0.2s;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            background: var(--orange-soft);
+            transform: translateY(-2px);
+        }
+
+        /* Canvas hero animation styles */
+        .canvas-hero {
+            position: relative;
+            width: 100%;
+            height: 220px;
+            margin-bottom: 1.6rem;
+            overflow: hidden;
+            border-radius: 0.8rem;
+            background: linear-gradient(180deg, rgba(10,10,10,0.85), rgba(20,20,20,0.6));
+            border: 1px solid rgba(255,107,26,0.12);
+        }
+
+        #heroCanvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+            pointer-events: none;
+        }
+
+        .hero-overlay {
+            position: relative;
+            z-index: 2;
+            padding: 1.2rem 1.6rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .success-message {
+            background: #4caf50;
+            color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        /* Projects Section Styles */
+        .projects-section {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.6rem;
+            width: 100%;
+        }
+
+        .project-card {
+            background: var(--dark-surface);
+            border: 1px solid rgba(255, 107, 26, 0.15);
+            border-radius: 1rem;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            position: relative;
+        }
+
+        .project-card:hover {
+            border-color: var(--orange);
+            box-shadow: 0 12px 24px rgba(255, 107, 26, 0.15);
+            transform: translateY(-4px);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, rgba(255,107,26,0.1), rgba(255,140,66,0.05));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .project-image::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,107,26,0.2), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .project-card:hover .project-image::before {
+            opacity: 1;
+        }
+
+        .project-content {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            gap: 1rem;
+        }
+
+        .project-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--orange);
+            margin: 0;
+            line-height: 1.3;
+        }
+
+        .project-description {
+            font-size: 1rem;
+            color: var(--gray-light);
+            line-height: 1.5;
+            margin: 0;
+            flex-grow: 1;
+        }
+
+        .project-technologies {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-top: 0.5rem;
+        }
+
+        .tech-badge {
+            background: rgba(255, 107, 26, 0.1);
+            color: var(--orange);
+            padding: 0.4rem 0.8rem;
+            border-radius: 1.5rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid rgba(255, 107, 26, 0.3);
+            transition: all 0.2s;
+        }
+
+        .project-card:hover .tech-badge {
+            background: rgba(255, 107, 26, 0.2);
+            border-color: var(--orange);
+        }
+
+        .project-footer {
+            display: flex;
+            gap: 0.8rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 107, 26, 0.1);
+            margin-top: auto;
+        }
+
+        .project-link {
+            flex: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.6rem 1rem;
+            background: transparent;
+            border: 1px solid var(--orange);
+            color: var(--orange);
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .project-link:hover {
+            background: var(--orange);
+            color: #0a0a0a;
+        }
+
+        /* Empty Projects State */
+        .projects-empty {
+            background: linear-gradient(135deg, rgba(255,107,26,0.05), rgba(255,107,26,0.02));
+            border: 2px dashed rgba(255, 107, 26, 0.2);
+            border-radius: 1rem;
+            padding: 3rem 2rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            min-height: 300px;
+            justify-content: center;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .projects-empty-icon {
+            font-size: 4rem;
+            opacity: 0.4;
+        }
+
+        .projects-empty-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--orange);
+            margin: 0;
+        }
+
+        .projects-empty-message {
+            font-size: 1.1rem;
+            color: var(--gray-light);
+            margin: 0;
+            max-width: 500px;
+            line-height: 1.6;
+        }
+
+        .projects-empty-cta {
+            margin-top: 1.5rem;
+            padding: 1rem 2rem;
+            background: var(--orange);
+            color: #0a0a0a;
+            border: none;
+            border-radius: 2.5rem;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .projects-empty-cta:hover {
+            background: var(--orange-soft);
+            transform: translateY(-2px);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .project-card {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 1rem;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .education {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.8rem;
+            }
+
+            .footer {
+                flex-direction: column;
+                gap: 1.2rem;
+                align-items: flex-start;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .projects-empty {
+                padding: 2rem 1.5rem;
+                min-height: 250px;
+            }
+
+            .projects-empty-icon {
+                font-size: 3rem;
+            }
+
+            .projects-empty-title {
+                font-size: 1.2rem;
+            }
+
+            .project-card {
+                border-radius: 0.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body class="<?php echo $theme === 'light' ? 'light-mode' : ''; ?>">
+    <div class="container">
+        
+        <header class="header">
+            <canvas id="headerCanvas" aria-hidden="true"></canvas>
+            <div class="logo">
+                <h1>Hi, i'm Rafael Henrique</h1>
+            </div>
+            <div class="badge">
+                <span class="age-tag">
+                    <?php echo $current['age_label']; ?>
+                </span>
+                <button id="darkModeToggle" class="dark-toggle"
+                    aria-label="<?php echo $language === 'pt' ? 'Alternar modo claro/escuro' : 'Toggle light/dark mode'; ?>">
+                    <span class="icon">
+                        <?php echo $theme === 'dark' ? '🌙' : '☀️'; ?>
+                    </span>
+                    <span id="modeText">
+                        <?php echo $theme === 'dark' ? $current['dark_mode'] : $current['light_mode']; ?>
+                    </span>
+                </button>
+            </div>
+        </header>
+
+        <section class="whoami-grid" aria-labelledby="whoami-heading">
+            <h2 id="whoami-heading" style="position: absolute; width: 1px; height: 1px; overflow: hidden;">
+                <?php echo $language === 'pt' ? 'Quem sou eu' : 'About me'; ?>
+            </h2>
+            <div class="language-buttons">
+                <a href="?lang=pt" class="lang-btn <?php echo $language === 'pt' ? 'active' : ''; ?>">
+                    <?php echo $current['lang_pt']; ?>
+                </a>
+                <a href="?lang=en" class="lang-btn <?php echo $language === 'en' ? 'active' : ''; ?>">
+                    <?php echo $current['lang_en']; ?>
+                </a>
+            </div>
+            <div class="bio-card">
+                <?php echo nl2br($current['bio']); ?>
+            </div>
+        </section>
+
+        <section class="stacks-section" aria-labelledby="stacks-heading">
+            <h2 class="stack-title">
+                <?php echo $current['stacks_title']; ?>
+            </h2>
+            <div class="tech-list">
+                <span class="tech-item">JAVA</span>
+                <span class="tech-item">PHP</span>
+                <span class="tech-item">PYTHON</span>
+                <span class="tech-item">CLI</span>
+                <span class="tech-item">CRUD</span>
+                <span class="tech-item">E-COMMERCE</span>
+            </div>
+            <div class="education">
+                <p><strong>
+                        <?php echo $current['education_course']; ?>
+                    </strong><br>
+                    <?php echo $current['education_date']; ?>
+                </p>
+                <a href="https://github.com/rafaelwhenrique" target="_blank" rel="noopener noreferrer"
+                    class="github-link">
+                    GITHUB → github.com/rafaelwhenrique
+                </a>
+            </div>
+        </section>
+
+        <section class="projects-section" aria-labelledby="projects-heading">
+            <h2 class="stack-title" id="projects-heading">
+                <?php echo $current['projects_title']; ?>
+            </h2>
+            <div class="projects-grid">
+                <?php if (empty($projects)): ?>
+                    <div class="projects-empty" style="grid-column: 1 / -1;">
+                        <div class="projects-empty-icon">📋</div>
+                        <h3 class="projects-empty-title">
+                            <?php echo $current['projects_empty_title']; ?>
+                        </h3>
+                        <p class="projects-empty-message">
+                            <?php echo $current['projects_empty_message']; ?>
+                        </p>
+                        <button class="projects-empty-cta" onclick="document.getElementById('contactCta').click();">
+                            <?php echo $language === 'pt' ? 'Fique em Contato' : 'Stay in Touch'; ?>
+                        </button>
+                    </div>
+                <?php else: ?>
+                    <?php foreach ($projects as $project): ?>
+                        <div class="project-card">
+                            <?php if (isset($project['image'])): ?>
+                                <div class="project-image">
+                                    <img src="<?php echo htmlspecialchars($project['image']); ?>" alt="<?php echo htmlspecialchars($project['title']); ?>" loading="lazy">
+                                </div>
+                            <?php else: ?>
+                                <div class="project-image" style="font-size: 3.5rem; justify-content: center;">
+                                    <?php echo isset($project['emoji']) ? $project['emoji'] : '💻'; ?>
+                                </div>
+                            <?php endif; ?>
+                            <div class="project-content">
+                                <h3 class="project-title">
+                                    <?php echo htmlspecialchars($project['title']); ?>
+                                </h3>
+                                <p class="project-description">
+                                    <?php echo htmlspecialchars($language === 'pt' ? $project['description'] : ($project['description_en'] ?? $project['description'])); ?>
+                                </p>
+                                <?php if (isset($project['technologies']) && !empty($project['technologies'])): ?>
+                                    <div class="project-technologies">
+                                        <?php foreach ($project['technologies'] as $tech): ?>
+                                            <span class="tech-badge"><?php echo htmlspecialchars($tech); ?></span>
+                                        <?php endforeach; ?>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                            <?php if (isset($project['url']) || isset($project['github']) || isset($project['demo'])): ?>
+                                <div class="project-footer">
+                                    <?php if (isset($project['github'])): ?>
+                                        <a href="<?php echo htmlspecialchars($project['github']); ?>" target="_blank" rel="noopener noreferrer" class="project-link">
+                                            GitHub
+                                        </a>
+                                    <?php endif; ?>
+                                    <?php if (isset($project['demo'])): ?>
+                                        <a href="<?php echo htmlspecialchars($project['demo']); ?>" target="_blank" rel="noopener noreferrer" class="project-link">
+                                            <?php echo $language === 'pt' ? 'Demo' : 'Demo'; ?>
+                                        </a>
+                                    <?php endif; ?>
+                                    <?php if (isset($project['url']) && !isset($project['github']) && !isset($project['demo'])): ?>
+                                        <a href="<?php echo htmlspecialchars($project['url']); ?>" target="_blank" rel="noopener noreferrer" class="project-link">
+                                            <?php echo $language === 'pt' ? 'Saiba Mais' : 'Learn More'; ?>
+                                        </a>
+                                    <?php endif; ?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="footer-left">
+                <span>
+                    <?php echo $current['footer_text']; ?>
+                </span>
+                <a href="https://github.com/rafaelwhenrique" target="_blank" rel="noopener">
+                    <?php echo $current['github_text']; ?>
+                </a>
+                <a href="#" id="linkedinLink" aria-label="LinkedIn (em breve)">
+                    <?php echo $current['linkedin_text']; ?>
+                </a>
+            </div>
+            <div>
+                <button class="cta-button" id="contactCta">
+                    <?php echo $current['contact_text']; ?>
+                </button>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Contact Modal -->
+    <div id="contactModal" class="modal">
+        <div class="modal-content">
+            <h3>
+                <?php echo $language === 'pt' ? 'Entre em contato' : 'Contact me'; ?>
+            </h3>
+            <?php if ($contact_message_sent): ?>
+            <div class="success-message">
+                <?php echo $language === 'pt' ? 'Mensagem enviada com sucesso!' : 'Message sent successfully!'; ?>
+            </div>
+            <?php else: ?>
+            <form method="POST" action="">
+                <input type="hidden" name="action" value="contact">
+                <input type="text" name="name"
+                    placeholder="<?php echo $language === 'pt' ? 'Seu nome' : 'Your name'; ?>" required>
+                <input type="email" name="email"
+                    placeholder="<?php echo $language === 'pt' ? 'Seu e-mail' : 'Your email'; ?>" required>
+                <textarea name="message" rows="4"
+                    placeholder="<?php echo $language === 'pt' ? 'Sua mensagem' : 'Your message'; ?>"
+                    required></textarea>
+                <button type="submit">
+                    <?php echo $language === 'pt' ? 'Enviar' : 'Send'; ?>
+                </button>
+                <button type="button" class="close-modal">
+                    <?php echo $language === 'pt' ? 'Cancelar' : 'Cancel'; ?>
+                </button>
+            </form>
+            <?php endif; ?>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            // Theme management with PHP integration
+            const darkToggle = document.getElementById('darkModeToggle');
+            const modeText = document.getElementById('modeText');
+            const body = document.body;
+            const currentTheme = '<?php echo $theme; ?>';
+
+            function updateDarkModeUI(isDark) {
+                if (isDark) {
+                    body.classList.remove('light-mode');
+                    modeText.textContent = '<?php echo $current['dark_mode']; ?>';
+                    darkToggle.querySelector('.icon').textContent = '🌙';
+                    document.cookie = "portfolio_theme=dark; path=/; max-age=31536000";
+                } else {
+                    body.classList.add('light-mode');
+                    modeText.textContent = '<?php echo $current['light_mode']; ?>';
+                    darkToggle.querySelector('.icon').textContent = '☀️';
+                    document.cookie = "portfolio_theme=light; path=/; max-age=31536000";
+                }
+            }
+
+            let isDark = currentTheme !== 'light';
+            updateDarkModeUI(isDark);
+
+            darkToggle.addEventListener('click', () => {
+                const currentlyDark = !body.classList.contains('light-mode');
+                updateDarkModeUI(!currentlyDark);
+                // Reload to apply PHP-side changes for consistency
+                setTimeout(() => location.reload(), 150);
+            });
+
+            // Modal management
+            const modal = document.getElementById('contactModal');
+            const contactBtn = document.getElementById('contactCta');
+            const closeModalBtn = document.querySelector('.close-modal');
+
+            if (contactBtn) {
+                contactBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    modal.style.display = 'flex';
+                });
+            }
+
+            if (closeModalBtn) {
+                closeModalBtn.addEventListener('click', () => {
+                    modal.style.display = 'none';
+                });
+            }
+
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+
+            // LinkedIn placeholder
+            const linkedinLink = document.getElementById('linkedinLink');
+            if (linkedinLink) {
+                linkedinLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    alert('<?php echo $language === 'pt' ? 'Perfil do LinkedIn em breve!' : 'LinkedIn profile coming soon!'; ?>');
+            });
+        }
+        }) ();
+    </script>
+    <script>
+        (function(){
+            const canvas = document.getElementById('heroCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+
+            function resize() {
+                const rect = canvas.getBoundingClientRect();
+                canvas.width = Math.floor(rect.width * devicePixelRatio);
+                canvas.height = Math.floor(rect.height * devicePixelRatio);
+                ctx.scale(devicePixelRatio, devicePixelRatio);
+            }
+
+            function rand(min, max){ return Math.random() * (max - min) + min; }
+
+            function createParticles(count){
+                particles = [];
+                const rect = canvas.getBoundingClientRect();
+                for(let i=0;i<count;i++){
+                    particles.push({
+                        x: rand(0, rect.width),
+                        y: rand(rect.height, rect.height + 100),
+                        size: rand(1,4),
+                        speed: rand(0.2, 1.0),
+                        hue: rand(20, 45),
+                        alpha: rand(0.3, 0.9)
+                    });
+                }
+            }
+
+            function draw(){
+                const rect = canvas.getBoundingClientRect();
+                ctx.clearRect(0,0,rect.width, rect.height);
+                particles.forEach(p => {
+                    p.y -= p.speed;
+                    p.x += Math.sin(p.y * 0.01) * 0.3;
+                    p.alpha -= 0.001;
+                    if (p.y < -10 || p.alpha <= 0) {
+                        p.x = rand(0, rect.width);
+                        p.y = rand(rect.height, rect.height + 100);
+                        p.alpha = rand(0.3,0.9);
+                    }
+                    ctx.beginPath();
+                    ctx.fillStyle = `hsla(${p.hue},100%,55%,${p.alpha})`;
+                    ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+                    ctx.fill();
+                });
+            }
+
+            function loop(){
+                draw();
+                requestAnimationFrame(loop);
+            }
+
+            function init(){
+                resize();
+                createParticles(80);
+                loop();
+            }
+
+            window.addEventListener('resize', () => {
+                // slight debounce
+                clearTimeout(window.__hero_resize);
+                window.__hero_resize = setTimeout(() => {
+                    resize();
+                    createParticles(80);
+                }, 150);
+            });
+
+            // Wait for fonts/styles
+            setTimeout(init, 50);
+        })();
+    </script>
+    <script>
+        (function(){
+            const canvas = document.getElementById('headerCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+
+            function resize() {
+                const rect = canvas.getBoundingClientRect();
+                canvas.width = Math.floor(rect.width * devicePixelRatio);
+                canvas.height = Math.floor(rect.height * devicePixelRatio);
+                ctx.scale(devicePixelRatio, devicePixelRatio);
+            }
+
+            function rand(min, max){ return Math.random() * (max - min) + min; }
+
+            function createParticles(count){
+                particles = [];
+                const rect = canvas.getBoundingClientRect();
+                for(let i=0;i<count;i++){
+                    particles.push({
+                        x: rand(0, rect.width),
+                        y: rand(-50, rect.height),
+                        size: rand(0.8, 2.5),
+                        speedX: rand(-0.3, 0.3),
+                        speedY: rand(-0.5, 0),
+                        hue: rand(15, 40),
+                        alpha: rand(0.2, 0.6)
+                    });
+                }
+            }
+
+            function draw(){
+                const rect = canvas.getBoundingClientRect();
+                ctx.clearRect(0,0,rect.width, rect.height);
+                particles.forEach(p => {
+                    p.y -= p.speedY;
+                    p.x += p.speedX;
+                    p.alpha -= 0.003;
+                    if (p.y < -10 || p.x < -10 || p.x > rect.width || p.alpha <= 0) {
+                        p.x = rand(0, rect.width);
+                        p.y = rand(-50, rect.height);
+                        p.alpha = rand(0.2, 0.6);
+                    }
+                    ctx.beginPath();
+                    ctx.fillStyle = `hsla(${p.hue},100%,55%,${p.alpha})`;
+                    ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+                    ctx.fill();
+                });
+            }
+
+            function loop(){
+                draw();
+                requestAnimationFrame(loop);
+            }
+
+            function init(){
+                resize();
+                createParticles(40);
+                loop();
+            }
+
+            window.addEventListener('resize', () => {
+                clearTimeout(window.__header_resize);
+                window.__header_resize = setTimeout(() => {
+                    resize();
+                    createParticles(40);
+                }, 150);
+            });
+
+            setTimeout(init, 50);
+        })();
+    </script>
+</body>
+
+</html>
