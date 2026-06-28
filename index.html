@@ -5,10 +5,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="description"
-        content="Rafael Henrique - Portfolio. Desenvolvedor de software, Java, Python, PHP. Landing pages & e-commerce.">
+        content="Rafael Henrique - Desenvolvedor de Software. Especializado em Java, Python e PHP. Criação de landing pages e e-commerces.">
     <meta name="theme-color" content="#0a0a0a">
-    <title>Rafael Henrique · Portfolio</title>
+    
+    <!-- Open Graph / SEO -->
+    <meta property="og:title" content="Rafael Henrique · Desenvolvedor de Software">
+    <meta property="og:description" content="Portfólio profissional de Rafael Henrique - Desenvolvedor Java, Python e PHP">
+    <meta property="og:type" content="website">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://rafaelhenrique.dev">
+    
+    <title>Rafael Henrique · Desenvolvedor de Software</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
     <style>
+        /* ===== RESET & BASE ===== */
         * {
             margin: 0;
             padding: 0;
@@ -17,63 +32,88 @@
 
         :root {
             --black: #0a0a0a;
+            --black-light: #141414;
             --orange: #ff6b1a;
             --orange-soft: #ff8c42;
-            --orange-dark: #e55a00;
+            --orange-glow: rgba(255, 107, 26, 0.15);
             --dark-surface: #1a1a1a;
-            --dark-surface-alt: #242424;
+            --dark-surface-hover: #222222;
             --gray-light: #e0e0e0;
-            --gray-medium: #a0a0a0;
+            --gray-muted: #888888;
             --white: #ffffff;
             --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 12px 40px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.5);
+            --radius-sm: 0.8rem;
+            --radius-md: 1.2rem;
+            --radius-lg: 1.6rem;
+            --radius-full: 9999px;
         }
 
         body {
-            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, system-ui, sans-serif;
             background-color: var(--black);
             color: var(--gray-light);
             line-height: 1.7;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
             min-height: 100vh;
             padding: 2rem 1.5rem;
-            transition: background-color 0.3s, color 0.3s;
-            letter-spacing: 0.3px;
+            transition: background-color 0.4s ease, color 0.4s ease;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         body.light-mode {
-            background-color: #faf8f5;
-            color: #1e1e1e;
-            --black: #faf8f5;
+            --black: #f8f6f2;
+            --black-light: #f0ede8;
             --dark-surface: #ffffff;
-            --gray-light: #2d2d2d;
+            --dark-surface-hover: #f5f3ef;
+            --gray-light: #1e1e1e;
+            --gray-muted: #666666;
             --white: #0a0a0a;
+            --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 12px 40px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.12);
         }
 
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--black);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--orange);
+            border-radius: var(--radius-full);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--orange-soft);
+        }
+
+        /* ===== CONTAINER ===== */
         .container {
-            max-width: 980px;
+            max-width: 1100px;
             width: 100%;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
-            gap: 6rem;
-            padding: 2rem 0;
+            gap: 5rem;
+            padding: 1rem 0 3rem;
         }
 
+        /* ===== HEADER ===== */
         .header {
             position: relative;
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
+            padding-bottom: 2rem;
             border-bottom: 2px solid var(--orange);
-            padding-bottom: 2.2rem;
             overflow: hidden;
-            min-height: 80px;
-            margin-bottom: 1rem;
+            min-height: 90px;
+            gap: 1.5rem;
         }
 
         #headerCanvas {
@@ -84,219 +124,691 @@
             height: 100%;
             z-index: 1;
             pointer-events: none;
+            opacity: 0.6;
         }
 
-        .logo, .badge {
+        .logo {
             position: relative;
             z-index: 10;
         }
 
         .logo h1 {
-            font-size: clamp(2rem, 6vw, 3.2rem);
+            font-size: clamp(1.8rem, 5vw, 3rem);
             font-weight: 800;
-            letter-spacing: -0.8px;
-            color: var(--orange);
+            letter-spacing: -0.03em;
+            color: var(--white);
             line-height: 1.1;
-            text-shadow: 0 2px 10px rgba(255, 107, 26, 0.1);
         }
 
-        .badge {
+        .logo h1 .highlight {
+            color: var(--orange);
+            position: relative;
+        }
+
+        .logo h1 .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--orange);
+            border-radius: var(--radius-full);
+            opacity: 0.4;
+        }
+
+        .logo .subtitle {
+            display: block;
+            font-size: clamp(0.85rem, 1.2vw, 1.05rem);
+            font-weight: 500;
+            color: var(--gray-muted);
+            letter-spacing: 0.02em;
+            margin-top: 0.15rem;
+        }
+
+        .badge-group {
+            position: relative;
+            z-index: 10;
             display: flex;
-            gap: 1rem;
-            align-items: center;
             flex-wrap: wrap;
+            align-items: center;
+            gap: 0.8rem;
         }
 
         .age-tag {
-            background: rgba(255, 107, 26, 0.08);
-            padding: 0.6rem 1.4rem;
-            border-radius: 3rem;
-            font-weight: 700;
-            font-size: 0.9rem;
+            background: var(--dark-surface);
+            padding: 0.45rem 1.2rem;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            font-size: 0.85rem;
             border: 1.5px solid var(--orange);
             color: var(--orange);
-            transition: all var(--transition-fast);
-            letter-spacing: 0.5px;
+            transition: all var(--transition);
+            letter-spacing: 0.03em;
         }
 
         .age-tag:hover {
-            background: rgba(255, 107, 26, 0.12);
-            box-shadow: 0 4px 12px rgba(255, 107, 26, 0.15);
+            background: var(--orange);
+            color: var(--black);
             transform: translateY(-1px);
         }
 
         .dark-toggle {
-            background: rgba(255, 107, 26, 0.08);
+            background: var(--dark-surface);
             border: 1.5px solid var(--orange);
             color: var(--orange);
-            padding: 0.6rem 1.4rem;
-            border-radius: 2rem;
-            font-weight: 700;
+            padding: 0.45rem 1.2rem;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            font-size: 0.85rem;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            transition: all var(--transition-fast);
-            font-size: 0.95rem;
-            letter-spacing: 0.3px;
+            transition: all var(--transition);
+            letter-spacing: 0.03em;
         }
 
         .dark-toggle:hover {
             background: var(--orange);
-            color: #0a0a0a;
-            box-shadow: 0 4px 12px rgba(255, 107, 26, 0.2);
+            color: var(--black);
             transform: translateY(-1px);
-        }
-
-        .whoami-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
         }
 
         .language-buttons {
             display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
+            gap: 0.4rem;
         }
 
         .lang-btn {
             background: transparent;
-            border: 1.5px solid var(--orange);
-            color: var(--orange);
-            padding: 0.6rem 1.4rem;
-            border-radius: 2.5rem;
-            font-weight: 700;
-            font-size: 0.85rem;
+            border: 1.5px solid var(--gray-muted);
+            color: var(--gray-muted);
+            padding: 0.4rem 1rem;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            font-size: 0.75rem;
             cursor: pointer;
-            transition: all var(--transition-fast);
+            transition: all var(--transition);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            flex: 0 1 auto;
-            text-decoration: none;
-            display: inline-block;
+            letter-spacing: 0.05em;
         }
 
         .lang-btn:hover {
-            background: rgba(255, 107, 26, 0.1);
-            box-shadow: 0 2px 8px rgba(255, 107, 26, 0.1);
+            border-color: var(--orange);
+            color: var(--orange);
+            transform: translateY(-1px);
         }
 
         .lang-btn.active {
             background: var(--orange);
-            color: #0a0a0a;
+            color: var(--black);
             border-color: var(--orange);
-            font-weight: 800;
-            box-shadow: 0 4px 12px rgba(255, 107, 26, 0.25);
         }
 
-        .bio-card {
-            background: linear-gradient(135deg, rgba(255, 107, 26, 0.05), rgba(255, 107, 26, 0.02));
-            border-left: 4px solid var(--orange);
-            border: 1px solid rgba(255, 107, 26, 0.15);
-            border-left: 4px solid var(--orange);
-            padding: 2.5rem;
-            border-radius: 1.2rem;
-            font-size: 1.05rem;
-            line-height: 1.8;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 107, 26, 0.05);
-            transition: all var(--transition);
-            min-height: 220px;
-            white-space: pre-wrap;
+        /* ===== HERO SECTION ===== */
+        .hero-section {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+            padding-top: 0.5rem;
         }
 
-        .bio-card:hover {
-            border-color: rgba(255, 107, 26, 0.25);
-            box-shadow: 0 8px 24px rgba(255, 107, 26, 0.1), inset 0 1px 0 rgba(255, 107, 26, 0.08);
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
         }
 
-        .stacks-section {
+        .hero-content {
             display: flex;
             flex-direction: column;
             gap: 1.8rem;
         }
 
-        .stack-title {
-            font-size: 2.2rem;
-            font-weight: 800;
+        .hero-content .greeting {
+            font-size: 1.2rem;
+            font-weight: 500;
             color: var(--orange);
-            border-bottom: 2px solid rgba(255, 107, 26, 0.3);
-            padding-bottom: 1rem;
-            letter-spacing: -0.5px;
-            margin-bottom: 0.5rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
         }
 
-        .tech-list {
+        .hero-content .title-main {
+            font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            color: var(--white);
+        }
+
+        .hero-content .title-main .highlight {
+            background: linear-gradient(135deg, var(--orange), var(--orange-soft));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-content .description {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--gray-light);
+            max-width: 580px;
+        }
+
+        .hero-content .description strong {
+            color: var(--orange);
+            font-weight: 600;
+        }
+
+        .hero-cta-group {
             display: flex;
             flex-wrap: wrap;
-            gap: 1.2rem;
-            align-items: center;
+            gap: 1rem;
+            margin-top: 0.5rem;
         }
 
-        .tech-item {
-            background: rgba(255, 107, 26, 0.08);
-            padding: 0.9rem 2rem;
-            border-radius: 2.5rem;
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: var(--orange);
+            color: var(--black);
+            padding: 0.9rem 2.2rem;
+            border-radius: var(--radius-full);
             font-weight: 700;
             font-size: 1rem;
-            letter-spacing: 0.4px;
-            border: 1.5px solid var(--orange);
-            color: var(--orange);
-            transition: all var(--transition-fast);
-            cursor: default;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all var(--transition);
+            letter-spacing: 0.02em;
         }
 
-        .tech-item:hover {
-            background: rgba(255, 107, 26, 0.12);
-            box-shadow: 0 4px 12px rgba(255, 107, 26, 0.15);
+        .btn-primary:hover {
+            background: var(--orange-soft);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px var(--orange-glow);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: transparent;
+            color: var(--gray-light);
+            padding: 0.9rem 2.2rem;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            border: 1.5px solid var(--gray-muted);
+            cursor: pointer;
+            transition: all var(--transition);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--orange);
+            color: var(--orange);
             transform: translateY(-2px);
         }
 
-        .education {
-            background: linear-gradient(135deg, rgba(255, 107, 26, 0.04), rgba(255, 107, 26, 0.01));
-            padding: 2rem 2.5rem;
-            border-radius: 1.2rem;
+        .hero-stats {
+            display: flex;
+            gap: 2.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 107, 26, 0.15);
+        }
+
+        .hero-stat {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hero-stat .number {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--orange);
+            line-height: 1.2;
+        }
+
+        .hero-stat .label {
+            font-size: 0.85rem;
+            color: var(--gray-muted);
+            font-weight: 500;
+        }
+
+        /* ===== BIO CARD (lado direito) ===== */
+        .bio-card-modern {
+            background: var(--dark-surface);
+            border-radius: var(--radius-lg);
+            padding: 2.2rem;
+            border-left: 4px solid var(--orange);
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bio-card-modern::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, var(--orange-glow), transparent 70%);
+            opacity: 0;
+            transition: opacity var(--transition);
+            pointer-events: none;
+        }
+
+        .bio-card-modern:hover::before {
+            opacity: 1;
+        }
+
+        .bio-card-modern:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .bio-card-modern .bio-content {
+            position: relative;
+            z-index: 1;
+            font-size: 1rem;
+            line-height: 1.8;
+            color: var(--gray-light);
+            white-space: pre-wrap;
+        }
+
+        .bio-card-modern .bio-content strong {
+            color: var(--orange);
+            font-weight: 600;
+        }
+
+        /* ===== TECH STACKS ===== */
+        .stacks-section {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-header .line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--orange), transparent);
+            max-width: 120px;
+        }
+
+        .section-header h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--white);
+            letter-spacing: -0.02em;
+        }
+
+        .section-header h2 .accent {
+            color: var(--orange);
+        }
+
+        .tech-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .tech-item-premium {
+            background: var(--dark-surface);
+            padding: 0.7rem 1.6rem;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.02em;
+            border: 1px solid rgba(255, 107, 26, 0.2);
+            color: var(--orange);
+            transition: all var(--transition);
+            cursor: default;
+        }
+
+        .tech-item-premium:hover {
+            background: var(--orange);
+            color: var(--black);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px var(--orange-glow);
+            border-color: var(--orange);
+        }
+
+        /* ===== EDUCATION CARD ===== */
+        .education-premium {
+            background: var(--dark-surface);
+            padding: 1.8rem 2.2rem;
+            border-radius: var(--radius-md);
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
-            border: 1.5px solid rgba(255, 107, 26, 0.2);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 107, 26, 0.05);
+            border: 1px solid rgba(255, 107, 26, 0.1);
             transition: all var(--transition);
+            box-shadow: var(--shadow-sm);
         }
 
-        .education:hover {
-            border-color: rgba(255, 107, 26, 0.3);
-            box-shadow: 0 6px 16px rgba(255, 107, 26, 0.08), inset 0 1px 0 rgba(255, 107, 26, 0.08);
+        .education-premium:hover {
+            border-color: var(--orange);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
         }
 
-        .education p {
-            font-weight: 600;
-            font-size: 1rem;
-            color: var(--gray-light);
+        .education-premium .edu-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
         }
 
-        .education strong {
-            color: var(--orange);
-            font-weight: 800;
+        .education-premium .edu-content .course {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--white);
         }
 
-        .github-link {
+        .education-premium .edu-content .institution {
+            font-size: 0.95rem;
+            color: var(--gray-muted);
+        }
+
+        .education-premium .edu-icon {
+            font-size: 2rem;
+            opacity: 0.6;
+        }
+
+        .github-link-premium {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
             color: var(--orange);
             font-weight: 700;
             text-decoration: none;
-            border-bottom: 2px solid transparent;
-            transition: all var(--transition-fast);
+            padding: 0.5rem 1.2rem;
+            border-radius: var(--radius-full);
+            border: 1.5px solid rgba(255, 107, 26, 0.2);
+            transition: all var(--transition);
+            font-size: 0.95rem;
+        }
+
+        .github-link-premium:hover {
+            background: var(--orange);
+            color: var(--black);
+            border-color: var(--orange);
+            transform: translateY(-2px);
+        }
+
+        /* ===== PROJECTS ===== */
+        .projects-section {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.8rem;
+        }
+
+        .project-card-premium {
+            background: var(--dark-surface);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            border: 1px solid rgba(255, 107, 26, 0.08);
+            transition: all var(--transition);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .project-card-premium:hover {
+            transform: translateY(-6px);
+            border-color: var(--orange);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .project-card-premium .card-header {
+            padding: 1.5rem 1.5rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .project-card-premium .card-header .project-icon {
+            font-size: 2.2rem;
+            line-height: 1;
+        }
+
+        .project-card-premium .card-header .project-type {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--gray-muted);
+            background: rgba(255, 107, 26, 0.1);
+            padding: 0.2rem 0.8rem;
+            border-radius: var(--radius-full);
+        }
+
+        .project-card-premium .card-body {
+            padding: 1.2rem 1.5rem 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .project-card-premium .card-body h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--white);
+            line-height: 1.3;
+        }
+
+        .project-card-premium .card-body p {
+            font-size: 0.95rem;
+            color: var(--gray-light);
+            line-height: 1.6;
+            flex: 1;
+        }
+
+        .project-card-premium .card-footer {
+            padding: 0 1.5rem 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            border-top: 1px solid rgba(255, 107, 26, 0.06);
+            padding-top: 1.2rem;
+            margin-top: auto;
+        }
+
+        .tech-badge-premium {
+            background: rgba(255, 107, 26, 0.08);
+            color: var(--orange);
+            padding: 0.25rem 0.8rem;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 600;
+            border: 1px solid rgba(255, 107, 26, 0.15);
+            transition: all var(--transition);
+        }
+
+        .tech-badge-premium:hover {
+            background: rgba(255, 107, 26, 0.2);
+            border-color: var(--orange);
+        }
+
+        .project-link-premium {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.4rem 1.2rem;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-decoration: none;
+            background: transparent;
+            border: 1px solid rgba(255, 107, 26, 0.2);
+            color: var(--orange);
+            transition: all var(--transition);
+        }
+
+        .project-link-premium:hover {
+            background: var(--orange);
+            color: var(--black);
+            border-color: var(--orange);
+        }
+
+        /* ===== EMPTY STATE ===== */
+        .empty-state-premium {
+            grid-column: 1 / -1;
+            background: var(--dark-surface);
+            border: 2px dashed rgba(255, 107, 26, 0.15);
+            border-radius: var(--radius-lg);
+            padding: 4rem 2rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.2rem;
+            transition: all var(--transition);
+        }
+
+        .empty-state-premium:hover {
+            border-color: var(--orange);
+            border-style: solid;
+        }
+
+        .empty-state-premium .empty-icon {
+            font-size: 3.5rem;
+            opacity: 0.5;
+        }
+
+        .empty-state-premium h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        .empty-state-premium p {
             font-size: 1rem;
-            letter-spacing: 0.3px;
-            display: inline-block;
+            color: var(--gray-muted);
+            max-width: 400px;
         }
 
-        .github-link:hover {
-            border-bottom: 2px solid var(--orange);
-            text-shadow: 0 0 8px rgba(255, 107, 26, 0.3);
+        .empty-state-premium .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.8rem 2rem;
+            border-radius: var(--radius-full);
+            border: 1.5px solid var(--orange);
+            color: var(--orange);
+            background: transparent;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition);
+            font-size: 0.95rem;
         }
 
+        .empty-state-premium .btn-outline:hover {
+            background: var(--orange);
+            color: var(--black);
+            transform: translateY(-2px);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer-premium {
+            margin-top: 1rem;
+            padding-top: 2.5rem;
+            border-top: 1px solid rgba(255, 107, 26, 0.15);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .footer-premium .footer-left {
+            display: flex;
+            align-items: center;
+            gap: 1.8rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-premium .footer-left .copyright {
+            font-size: 0.9rem;
+            color: var(--gray-muted);
+        }
+
+        .footer-premium .footer-left .footer-link {
+            color: var(--gray-light);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color var(--transition);
+            position: relative;
+        }
+
+        .footer-premium .footer-left .footer-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--orange);
+            transition: width var(--transition);
+        }
+
+        .footer-premium .footer-left .footer-link:hover {
+            color: var(--orange);
+        }
+
+        .footer-premium .footer-left .footer-link:hover::after {
+            width: 100%;
+        }
+
+        .footer-premium .footer-right {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn-cta-footer {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: var(--orange);
+            color: var(--black);
+            padding: 0.7rem 1.8rem;
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            font-size: 0.95rem;
+            border: none;
+            cursor: pointer;
+            transition: all var(--transition);
+        }
+
+        .btn-cta-footer:hover {
+            background: var(--orange-soft);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px var(--orange-glow);
+        }
+
+        /* ===== MODAL ===== */
         .modal {
             display: none;
             position: fixed;
@@ -304,449 +816,144 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
             z-index: 1000;
             justify-content: center;
             align-items: center;
-            backdrop-filter: blur(2px);
-            animation: fadeIn 0.2s ease-out;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         .modal-content {
-            background: linear-gradient(135deg, var(--dark-surface), var(--dark-surface-alt));
+            background: var(--dark-surface);
             padding: 2.5rem;
-            border-radius: 1.4rem;
-            max-width: 500px;
+            border-radius: var(--radius-lg);
+            max-width: 520px;
             width: 90%;
-            border: 1.5px solid rgba(255, 107, 26, 0.2);
             border-left: 4px solid var(--orange);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-            animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-lg);
+            position: relative;
         }
 
         .modal-content h3 {
-            color: var(--orange);
+            color: var(--white);
+            font-size: 1.5rem;
+            font-weight: 700;
             margin-bottom: 1.5rem;
-            font-size: 1.4rem;
-            font-weight: 800;
-            letter-spacing: -0.3px;
         }
 
         .modal-content input,
         .modal-content textarea {
             width: 100%;
-            padding: 1rem;
-            margin-bottom: 1.2rem;
-            border: 1.5px solid rgba(255, 107, 26, 0.2);
-            background: rgba(255, 107, 26, 0.03);
+            padding: 0.9rem 1.2rem;
+            margin-bottom: 1rem;
+            border: 1.5px solid rgba(255, 107, 26, 0.15);
+            background: var(--black);
             color: var(--gray-light);
-            border-radius: 0.6rem;
+            border-radius: var(--radius-sm);
             font-family: inherit;
             font-size: 1rem;
-            transition: all var(--transition-fast);
-            letter-spacing: 0.2px;
+            transition: border-color var(--transition);
         }
 
         .modal-content input:focus,
         .modal-content textarea:focus {
             outline: none;
             border-color: var(--orange);
-            background: rgba(255, 107, 26, 0.06);
-            box-shadow: 0 0 0 3px rgba(255, 107, 26, 0.1);
         }
 
-        .modal-content button {
-            background: var(--orange);
-            color: #0a0a0a;
-            padding: 1rem 2.2rem;
-            border: none;
-            border-radius: 2.5rem;
-            font-weight: 800;
-            cursor: pointer;
-            margin-right: 0.8rem;
-            transition: all var(--transition-fast);
-            font-size: 1rem;
-            letter-spacing: 0.3px;
-            box-shadow: 0 4px 12px rgba(255, 107, 26, 0.2);
+        .modal-content input::placeholder,
+        .modal-content textarea::placeholder {
+            color: var(--gray-muted);
         }
 
-        .modal-content button:hover {
-            background: var(--orange-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(255, 107, 26, 0.3);
-        }
-
-        .modal-content button:active {
-            transform: translateY(0);
-        }
-
-        .close-modal {
-            background: transparent;
-            border: 1.5px solid var(--orange);
-            color: var(--orange);
-            box-shadow: none;
-        }
-
-        .close-modal:hover {
-            background: rgba(255, 107, 26, 0.1);
-            box-shadow: 0 2px 8px rgba(255, 107, 26, 0.15);
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .footer {
-            margin-top: 2rem;
+        .modal-actions {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 2px solid rgba(255, 107, 26, 0.3);
-            padding-top: 2.5rem;
-            font-size: 1rem;
-            color: var(--gray-light);
+            gap: 0.8rem;
+            margin-top: 0.5rem;
         }
 
-        .footer a {
-            color: var(--orange);
-            text-decoration: none;
+        .modal-actions .btn-submit {
+            background: var(--orange);
+            color: var(--black);
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: var(--radius-full);
             font-weight: 700;
-            margin-left: 1.5rem;
-            transition: all var(--transition-fast);
-            letter-spacing: 0.2px;
-        }
-
-        .footer a:hover {
-            text-shadow: 0 0 8px rgba(255, 107, 26, 0.3);
-        }
-
-        .footer-left {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            font-weight: 600;
-            color: var(--gray-medium);
-        }
-
-        .cta-button {
-            background: var(--orange);
-            color: #0a0a0a;
-            padding: 1rem 2.4rem;
-            border-radius: 2.5rem;
-            font-weight: 800;
-            text-decoration: none;
-            transition: all var(--transition-fast);
-            display: inline-block;
-            border: none;
-            cursor: pointer;
             font-size: 1rem;
-            letter-spacing: 0.3px;
-            box-shadow: 0 4px 12px rgba(255, 107, 26, 0.2);
+            cursor: pointer;
+            transition: all var(--transition);
+            flex: 1;
         }
 
-        .cta-button:hover {
-            background: var(--orange-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(255, 107, 26, 0.3);
+        .modal-actions .btn-submit:hover {
+            background: var(--orange-soft);
+            transform: translateY(-1px);
         }
 
-        .cta-button:active {
-            transform: translateY(0);
+        .modal-actions .btn-cancel {
+            background: transparent;
+            border: 1.5px solid var(--gray-muted);
+            color: var(--gray-muted);
+            padding: 0.8rem 2rem;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all var(--transition);
         }
 
-        .canvas-hero {
-            position: relative;
-            width: 100%;
-            height: 240px;
-            margin-bottom: 2rem;
-            overflow: hidden;
-            border-radius: 0.9rem;
-            background: linear-gradient(180deg, rgba(10,10,10,0.9), rgba(20,20,20,0.7));
-            border: 1.5px solid rgba(255,107,26,0.15);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 107, 26, 0.05);
-        }
-
-        #heroCanvas {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            display: block;
-            pointer-events: none;
-        }
-
-        .hero-overlay {
-            position: relative;
-            z-index: 2;
-            padding: 1.2rem 1.6rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            height: 100%;
+        .modal-actions .btn-cancel:hover {
+            border-color: var(--orange);
+            color: var(--orange);
         }
 
         .success-message {
             background: #4caf50;
             color: white;
             padding: 1rem;
-            border-radius: 0.5rem;
+            border-radius: var(--radius-sm);
             margin-top: 1rem;
             text-align: center;
+            display: none;
         }
 
-        .projects-section {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
-
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.6rem;
-            width: 100%;
-        }
-
-        .project-card {
-            background: linear-gradient(135deg, var(--dark-surface-alt), var(--dark-surface));
-            border: 1.5px solid rgba(255, 107, 26, 0.15);
-            border-radius: 1.1rem;
-            overflow: hidden;
-            transition: all var(--transition);
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            position: relative;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        .project-card:hover {
-            border-color: rgba(255, 107, 26, 0.4);
-            box-shadow: 0 16px 32px rgba(255, 107, 26, 0.12);
-            transform: translateY(-6px);
-        }
-
-        .project-image {
-            width: 100%;
-            height: 220px;
-            background: linear-gradient(135deg, rgba(255,107,26,0.12), rgba(255,140,66,0.06));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3.2rem;
-            overflow: hidden;
-            position: relative;
-            border-bottom: 1px solid rgba(255, 107, 26, 0.1);
-        }
-
-        .project-image::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(255,107,26,0.15), rgba(255,107,26,0.02));
-            opacity: 0;
-            transition: opacity var(--transition);
-        }
-
-        .project-card:hover .project-image::before {
-            opacity: 1;
-        }
-
-        .project-content {
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-            gap: 1.2rem;
-        }
-
-        .project-title {
-            font-size: 1.35rem;
-            font-weight: 800;
-            color: var(--orange);
-            margin: 0;
-            line-height: 1.3;
-            letter-spacing: -0.3px;
-        }
-
-        .project-description {
-            font-size: 1rem;
-            color: var(--gray-light);
-            line-height: 1.6;
-            margin: 0;
-            flex-grow: 1;
-        }
-
-        .project-technologies {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.6rem;
-            margin-top: 0.5rem;
-        }
-
-        .tech-badge {
-            background: rgba(255, 107, 26, 0.1);
-            color: var(--orange);
-            padding: 0.5rem 1rem;
-            border-radius: 1.5rem;
-            font-size: 0.85rem;
-            font-weight: 700;
-            border: 1.5px solid rgba(255, 107, 26, 0.3);
-            transition: all var(--transition-fast);
-            display: inline-block;
-            letter-spacing: 0.2px;
-        }
-
-        .project-card:hover .tech-badge {
-            background: rgba(255, 107, 26, 0.15);
-            border-color: var(--orange);
-            transform: translateY(-1px);
-        }
-
-        .project-footer {
-            display: flex;
-            gap: 1rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid rgba(255, 107, 26, 0.1);
-            margin-top: auto;
-        }
-
-        .project-link {
-            flex: 1;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0.8rem 1.2rem;
-            background: transparent;
-            border: 1.5px solid var(--orange);
-            color: var(--orange);
-            border-radius: 0.6rem;
-            font-weight: 700;
-            font-size: 0.9rem;
-            text-decoration: none;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-            letter-spacing: 0.2px;
-        }
-
-        .project-link:hover {
-            background: var(--orange);
-            color: #0a0a0a;
-            box-shadow: 0 4px 12px rgba(255, 107, 26, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .projects-empty {
-            background: linear-gradient(135deg, rgba(255,107,26,0.06), rgba(255,107,26,0.02));
-            border: 2px dashed rgba(255, 107, 26, 0.25);
-            border-radius: 1.2rem;
-            padding: 4rem 2.5rem;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1.5rem;
-            min-height: 340px;
-            justify-content: center;
-            animation: fadeIn 0.6s ease-out;
-        }
-
-        .projects-empty-icon {
-            font-size: 4.5rem;
-            opacity: 0.3;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .projects-empty-title {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--orange);
-            margin: 0;
-            letter-spacing: -0.3px;
-        }
-
-        .projects-empty-message {
-            font-size: 1.1rem;
-            color: var(--gray-light);
-            margin: 0;
-            max-width: 500px;
-            line-height: 1.7;
-            color: var(--gray-medium);
-        }
-
-        .projects-empty-cta {
-            margin-top: 1rem;
-            padding: 1rem 2.4rem;
-            background: var(--orange);
-            color: #0a0a0a;
-            border: none;
-            border-radius: 2.5rem;
-            font-weight: 800;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-            box-shadow: 0 4px 12px rgba(255, 107, 26, 0.2);
-            letter-spacing: 0.3px;
-        }
-
-        .projects-empty-cta:hover {
-            background: var(--orange-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(255, 107, 26, 0.3);
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(8px);
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
             }
-            to {
-                opacity: 1;
-                transform: translateY(0);
+
+            .hero-content .description {
+                max-width: 100%;
+            }
+
+            .bio-card-modern {
+                padding: 1.8rem;
             }
         }
 
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .project-card {
-            animation: fadeIn 0.5s ease-out;
-        }
-
-        @media (max-width: 600px) {
+        @media (max-width: 700px) {
             body {
-                padding: 1.5rem 1rem;
-            }
-
-            .container {
-                gap: 4rem;
+                padding: 1rem;
             }
 
             .header {
                 flex-direction: column;
-                align-items: flex-start;
-                gap: 1.2rem;
+                align-items: stretch;
+                gap: 1rem;
                 padding-bottom: 1.5rem;
             }
 
@@ -754,56 +961,64 @@
                 font-size: 1.8rem;
             }
 
-            .badge {
-                width: 100%;
+            .badge-group {
                 justify-content: flex-start;
+                gap: 0.5rem;
             }
 
-            .language-buttons {
-                gap: 0.6rem;
+            .hero-stats {
+                gap: 1.5rem;
+                flex-wrap: wrap;
             }
 
-            .education {
+            .education-premium {
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 1rem;
             }
 
-            .footer {
+            .footer-premium {
                 flex-direction: column;
-                gap: 1.5rem;
                 align-items: flex-start;
+            }
+
+            .footer-premium .footer-left {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.8rem;
             }
 
             .projects-grid {
                 grid-template-columns: 1fr;
-                gap: 1.4rem;
             }
 
-            .projects-empty {
-                padding: 3rem 1.5rem;
-                min-height: 300px;
+            .modal-content {
+                padding: 1.8rem;
             }
 
-            .projects-empty-icon {
-                font-size: 3.5rem;
+            .modal-actions {
+                flex-direction: column;
             }
 
-            .projects-empty-title {
-                font-size: 1.2rem;
+            .container {
+                gap: 3.5rem;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .hero-cta-group {
+                flex-direction: column;
+                width: 100%;
             }
 
-            .project-card {
-                border-radius: 0.9rem;
+            .hero-cta-group .btn-primary,
+            .hero-cta-group .btn-secondary {
+                justify-content: center;
+                width: 100%;
             }
 
-            .canvas-hero {
-                height: 200px;
-                margin-bottom: 1.5rem;
-            }
-
-            .stack-title {
-                font-size: 1.8rem;
+            .badge-group {
+                flex-wrap: wrap;
             }
         }
     </style>
@@ -812,88 +1027,163 @@
 <body>
     <div class="container">
         
+        <!-- ===== HEADER ===== -->
         <header class="header">
             <canvas id="headerCanvas" aria-hidden="true"></canvas>
             <div class="logo">
-                <h1>Hi, i'm Rafael Henrique</h1>
+                <h1>
+                    <span class="highlight">Rafael</span> Henrique
+                    <span class="subtitle">Desenvolvedor de Software</span>
+                </h1>
             </div>
-            <div class="badge">
+            <div class="badge-group">
                 <span class="age-tag" id="ageTag">23 ANOS</span>
-                <button id="darkModeToggle" class="dark-toggle" aria-label="Toggle light/dark mode">
+                <button id="darkModeToggle" class="dark-toggle" aria-label="Toggle theme">
                     <span class="icon">🌙</span>
-                    <span id="modeText">DARK MODE</span>
+                    <span id="modeText">DARK</span>
                 </button>
                 <div class="language-buttons">
-                    <button class="lang-btn active" data-lang="pt">🇧🇷 PORTUGUÊS</button>
-                    <button class="lang-btn" data-lang="en">🇺🇸 ENGLISH</button>
+                    <button class="lang-btn active" data-lang="pt">PT</button>
+                    <button class="lang-btn" data-lang="en">EN</button>
                 </div>
             </div>
         </header>
 
-        <section class="whoami-grid" aria-labelledby="whoami-heading">
-            <h2 id="whoami-heading" style="position: absolute; width: 1px; height: 1px; overflow: hidden;">About me</h2>
-            <div class="bio-card" id="bioCard"></div>
+        <!-- ===== HERO SECTION ===== -->
+        <section class="hero-section">
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <span class="greeting">👋 Olá, mundo</span>
+                    <h1 class="title-main">
+                        Criando soluções <br><span class="highlight">que fazem a diferença</span>
+                    </h1>
+                    <p class="description" id="heroDescription">
+                        Desenvolvedor apaixonado por <strong>Java, Python e PHP</strong>. 
+                        Transformo necessidades em produtos digitais, 
+                        desde e-commerces completos até landing pages de alto impacto.
+                    </p>
+                    <div class="hero-cta-group">
+                        <a href="#contact" class="btn-primary" id="heroCta">
+                            📬 Vamos conversar
+                        </a>
+                        <a href="https://github.com/rafaelwhenrique" target="_blank" rel="noopener" class="btn-secondary">
+                            <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor">
+                                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+                            </svg>
+                            GitHub
+                        </a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="hero-stat">
+                            <span class="number" id="statProjects">+5</span>
+                            <span class="label" id="statProjectsLabel">Projetos</span>
+                        </div>
+                        <div class="hero-stat">
+                            <span class="number" id="statExperience">2+</span>
+                            <span class="label" id="statExperienceLabel">Anos de experiência</span>
+                        </div>
+                        <div class="hero-stat">
+                            <span class="number" id="statClients">+10</span>
+                            <span class="label" id="statClientsLabel">Clientes atendidos</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BIO CARD -->
+                <div class="bio-card-modern">
+                    <div class="bio-content" id="bioCard"></div>
+                </div>
+            </div>
         </section>
 
-        <section class="stacks-section" aria-labelledby="stacks-heading">
-            <h2 class="stack-title" id="stacksTitle"></h2>
-            <div class="tech-list">
-                <span class="tech-item">JAVA</span>
-                <span class="tech-item">PHP</span>
-                <span class="tech-item">PYTHON</span>
-                <span class="tech-item">CLI</span>
-                <span class="tech-item">CRUD</span>
-                <span class="tech-item">E-COMMERCE</span>
+        <!-- ===== STACKS ===== -->
+        <section class="stacks-section">
+            <div class="section-header">
+                <h2><span class="accent">//</span> STACKS & FORMAÇÃO</h2>
+                <span class="line"></span>
             </div>
-            <div class="education">
-                <p><strong id="educationCourse"></strong><br><span id="educationDate"></span></p>
-                <a href="https://github.com/rafaelwhenrique" target="_blank" rel="noopener noreferrer" class="github-link">
-                    GITHUB → github.com/rafaelwhenrique
+
+            <div class="tech-grid">
+                <span class="tech-item-premium">JAVA</span>
+                <span class="tech-item-premium">PHP</span>
+                <span class="tech-item-premium">PYTHON</span>
+                <span class="tech-item-premium">CLI</span>
+                <span class="tech-item-premium">CRUD</span>
+                <span class="tech-item-premium">E-COMMERCE</span>
+                <span class="tech-item-premium">LARAVEL</span>
+                <span class="tech-item-premium">SPRING</span>
+            </div>
+
+            <div class="education-premium">
+                <div class="edu-content">
+                    <span class="course" id="educationCourse">TECNÓLOGO ANÁLISE E DESENVOLVIMENTO DE SISTEMAS</span>
+                    <span class="institution" id="educationDate">UNIPLAN · FORMADO 2026</span>
+                </div>
+                <span class="edu-icon">🎓</span>
+                <a href="https://github.com/rafaelwhenrique" target="_blank" rel="noopener noreferrer" class="github-link-premium">
+                    <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor">
+                        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+                    </svg>
+                    github.com/rafaelwhenrique
                 </a>
             </div>
         </section>
 
-        <section class="projects-section" aria-labelledby="projects-heading">
-            <h2 class="stack-title" id="projectsTitle"></h2>
+        <!-- ===== PROJECTS ===== -->
+        <section class="projects-section" id="projectsSection">
+            <div class="section-header">
+                <h2><span class="accent">//</span> PROJETOS</h2>
+                <span class="line"></span>
+            </div>
             <div class="projects-grid" id="projectsGrid"></div>
         </section>
 
-        <footer class="footer">
+        <!-- ===== FOOTER ===== -->
+        <footer class="footer-premium">
             <div class="footer-left">
-                <span id="footerText"></span>
-                <a href="https://github.com/rafaelwhenrique" target="_blank" rel="noopener">GitHub</a>
-                <a href="#" id="linkedinLink">LinkedIn</a>
+                <span class="copyright" id="footerText">© 2026 Rafael Henrique</span>
+                <a href="https://github.com/rafaelwhenrique" target="_blank" rel="noopener" class="footer-link">GitHub</a>
+                <a href="#" id="linkedinLink" class="footer-link">LinkedIn</a>
+                <a href="mailto:rafael@example.com" class="footer-link">Email</a>
             </div>
-            <div>
-                <button class="cta-button" id="contactCta"></button>
+            <div class="footer-right">
+                <button class="btn-cta-footer" id="contactCta">
+                    📬 Contato
+                </button>
             </div>
         </footer>
     </div>
 
+    <!-- ===== MODAL ===== -->
     <div id="contactModal" class="modal">
         <div class="modal-content">
-            <h3 id="modalTitle"></h3>
+            <h3 id="modalTitle">Entre em contato</h3>
             <form id="contactForm" action="https://formspree.io/f/xkolrkrn" method="POST">
-                <input type="text" name="name" id="formName" required>
-                <input type="email" name="email" id="formEmail" required>
-                <textarea name="message" id="formMessage" rows="4" required></textarea>
-                <button type="submit" id="formSubmit"></button>
-                <button type="button" class="close-modal" id="formCancel"></button>
+                <input type="text" name="name" id="formName" placeholder="Seu nome" required>
+                <input type="email" name="email" id="formEmail" placeholder="Seu e-mail" required>
+                <textarea name="message" id="formMessage" rows="4" placeholder="Sua mensagem" required></textarea>
+                <div class="modal-actions">
+                    <button type="submit" class="btn-submit" id="formSubmit">Enviar</button>
+                    <button type="button" class="btn-cancel" id="formCancel">Cancelar</button>
+                </div>
+                <div class="success-message" id="successMessage">✅ Mensagem enviada com sucesso!</div>
             </form>
         </div>
     </div>
 
+    <!-- ===== JAVASCRIPT ===== -->
     <script>
-        // Content data
+        // ============================================================
+        // CONTENT DATA
+        // ============================================================
         const content = {
             pt: {
                 bio: 'Durante minha trajetória acadêmica, desenvolvi projetos utilizando Python, incluindo um sistema CLI com funcionalidades de caixa e controle CRUD via painel administrativo. Também utilizei Java para desenvolver um sistema de controle de estoque com autenticação por login, tratamento de exceções e validação através de try catch. Atualmente, trabalho com empresas que ainda não possuem presença digital consolidada, realizando um trabalho consultivo para entender as necessidades do negócio por meio de conversas com gestores, gerentes e responsáveis pela empresa, elaborando orçamentos personalizados para cada projeto. Desenvolvo e-commerces para lojas virtuais e landing pages para divulgação, cuidando de todo o processo, desde o planejamento até a entrega final.',
                 ageLabel: '23 ANOS',
-                stacksTitle: '// STACKS & FORMAÇÃO',
                 educationCourse: 'TECNÓLOGO ANÁLISE E DESENVOLVIMENTO DE SISTEMAS',
                 educationDate: 'UNIPLAN · FORMADO 2026',
                 projectsTitle: '// PROJETOS',
-                projectsEmptyTitle: 'Projetos em Desenvolvimento',
+                projectsEmptyTitle: 'Projetos em andamento',
                 projectsEmptyMessage: 'Estou construindo projetos incríveis que em breve serão compartilhados aqui. Fique atento!',
                 projectsEmptyCta: 'Fique em Contato',
                 footerText: '© 2026 Rafael Henrique',
@@ -903,14 +1193,20 @@
                 formMessagePlaceholder: 'Sua mensagem',
                 formSubmit: 'Enviar',
                 formCancel: 'Cancelar',
-                darkMode: 'MODO ESCURO',
-                lightMode: 'MODO CLARO',
-                aboutMe: 'Quem sou eu'
+                darkMode: 'DARK',
+                lightMode: 'LIGHT',
+                heroDescription: 'Desenvolvedor apaixonado por <strong>Java, Python e PHP</strong>. Transformo necessidades em produtos digitais, desde e-commerces completos até landing pages de alto impacto.',
+                heroCta: '📬 Vamos conversar',
+                statProjects: '+5',
+                statProjectsLabel: 'Projetos',
+                statExperience: '2+',
+                statExperienceLabel: 'Anos de experiência',
+                statClients: '+10',
+                statClientsLabel: 'Clientes atendidos'
             },
             en: {
                 bio: 'During my academic journey, I developed projects using Python, including a CLI system with cash register functionalities and CRUD control via an admin panel. I also used Java to build an inventory management system with login authentication, exception handling, and validation through try catch. Currently, I work with businesses that lack a solid digital presence, taking a consultative approach to understand their needs through conversations with owners, managers, and company stakeholders, creating personalized quotes for each project. I develop e-commerce solutions for online stores and landing pages for promotion, managing the entire process from planning to final delivery.',
                 ageLabel: '23 YEARS',
-                stacksTitle: '// STACKS & EDUCATION',
                 educationCourse: 'SYSTEMS ANALYSIS AND DEVELOPMENT TECHNOLOGIST',
                 educationDate: 'UNIPLAN · GRADUATED 2026',
                 projectsTitle: '// PROJECTS',
@@ -924,76 +1220,145 @@
                 formMessagePlaceholder: 'Your message',
                 formSubmit: 'Send',
                 formCancel: 'Cancel',
-                darkMode: 'DARK MODE',
-                lightMode: 'LIGHT MODE',
-                aboutMe: 'About me'
+                darkMode: 'DARK',
+                lightMode: 'LIGHT',
+                heroDescription: 'Developer passionate about <strong>Java, Python and PHP</strong>. Transforming needs into digital products, from complete e-commerce to high-impact landing pages.',
+                heroCta: '📬 Let\'s talk',
+                statProjects: '+5',
+                statProjectsLabel: 'Projects',
+                statExperience: '2+',
+                statExperienceLabel: 'Years of experience',
+                statClients: '+10',
+                statClientsLabel: 'Clients served'
             }
         };
 
-        const projects = [];
+        // ============================================================
+        // PROJECTS DATA
+        // ============================================================
+        const projects = [
+            // Adicione seus projetos aqui quando estiverem prontos
+            // Exemplo:
+            // {
+            //     title: 'Sistema de Estoque',
+            //     description: 'Sistema completo com autenticação, CRUD e validações',
+            //     description_en: 'Complete inventory system with authentication and CRUD',
+            //     technologies: ['Java', 'MySQL', 'Swing'],
+            //     github: 'https://github.com/...',
+            //     demo: 'https://...',
+            //     emoji: '📦',
+            //     type: 'Java'
+            // }
+        ];
 
+        // ============================================================
+        // STATE
+        // ============================================================
         let currentLanguage = localStorage.getItem('language') || 'pt';
         let currentTheme = localStorage.getItem('theme') || 'dark';
 
+        // ============================================================
+        // DOM REFS
+        // ============================================================
+        const $ = id => document.getElementById(id);
+        const bioCard = $('bioCard');
+        const ageTag = $('ageTag');
+        const educationCourse = $('educationCourse');
+        const educationDate = $('educationDate');
+        const projectsGrid = $('projectsGrid');
+        const footerText = $('footerText');
+        const contactCta = $('contactCta');
+        const modalTitle = $('modalTitle');
+        const formName = $('formName');
+        const formEmail = $('formEmail');
+        const formMessage = $('formMessage');
+        const formSubmit = $('formSubmit');
+        const formCancel = $('formCancel');
+        const heroDesc = $('heroDescription');
+        const heroCta = $('heroCta');
+        const statProjects = $('statProjects');
+        const statProjectsLabel = $('statProjectsLabel');
+        const statExperience = $('statExperience');
+        const statExperienceLabel = $('statExperienceLabel');
+        const statClients = $('statClients');
+        const statClientsLabel = $('statClientsLabel');
+        const modal = $('contactModal');
+        const darkToggle = $('darkModeToggle');
+        const modeText = $('modeText');
+        const icon = darkToggle.querySelector('.icon');
+        const successMsg = $('successMessage');
+
+        // ============================================================
+        // UI UPDATE
+        // ============================================================
         function updateUI() {
             const t = content[currentLanguage];
             document.documentElement.lang = currentLanguage === 'pt' ? 'pt-BR' : 'en';
-            document.getElementById('ageTag').textContent = t.ageLabel;
-            document.getElementById('bioCard').textContent = t.bio;
-            document.getElementById('stacksTitle').textContent = t.stacksTitle;
-            document.getElementById('educationCourse').textContent = t.educationCourse;
-            document.getElementById('educationDate').textContent = t.educationDate;
-            document.getElementById('projectsTitle').textContent = t.projectsTitle;
-            document.getElementById('footerText').textContent = t.footerText;
-            document.getElementById('contactCta').textContent = t.contactTitle;
-            document.getElementById('modalTitle').textContent = t.contactTitle;
-            document.getElementById('formName').placeholder = t.formNamePlaceholder;
-            document.getElementById('formEmail').placeholder = t.formEmailPlaceholder;
-            document.getElementById('formMessage').placeholder = t.formMessagePlaceholder;
-            document.getElementById('formSubmit').textContent = t.formSubmit;
-            document.getElementById('formCancel').textContent = t.formCancel;
-            document.getElementById('whoami-heading').textContent = t.aboutMe;
+            
+            bioCard.innerHTML = t.bio;
+            ageTag.textContent = t.ageLabel;
+            educationCourse.textContent = t.educationCourse;
+            educationDate.textContent = t.educationDate;
+            footerText.textContent = t.footerText;
+            heroDesc.innerHTML = t.heroDescription;
+            heroCta.textContent = t.heroCta;
+            statProjects.textContent = t.statProjects;
+            statProjectsLabel.textContent = t.statProjectsLabel;
+            statExperience.textContent = t.statExperience;
+            statExperienceLabel.textContent = t.statExperienceLabel;
+            statClients.textContent = t.statClients;
+            statClientsLabel.textContent = t.statClientsLabel;
+            
+            modalTitle.textContent = t.contactTitle;
+            formName.placeholder = t.formNamePlaceholder;
+            formEmail.placeholder = t.formEmailPlaceholder;
+            formMessage.placeholder = t.formMessagePlaceholder;
+            formSubmit.textContent = t.formSubmit;
+            formCancel.textContent = t.formCancel;
+            contactCta.textContent = t.contactTitle;
 
             updateProjectsGrid();
             updateLanguageButtons();
+            updateTheme();
         }
 
         function updateProjectsGrid() {
-            const grid = document.getElementById('projectsGrid');
             const t = content[currentLanguage];
             
             if (projects.length === 0) {
-                grid.innerHTML = `
-                    <div class="projects-empty" style="grid-column: 1 / -1;">
-                        <div class="projects-empty-icon">📋</div>
-                        <h3 class="projects-empty-title">${t.projectsEmptyTitle}</h3>
-                        <p class="projects-empty-message">${t.projectsEmptyMessage}</p>
-                        <button class="projects-empty-cta" onclick="document.getElementById('contactCta').click();">
-                            ${t.projectsEmptyCta}
+                projectsGrid.innerHTML = `
+                    <div class="empty-state-premium">
+                        <div class="empty-icon">📋</div>
+                        <h3>${t.projectsEmptyTitle}</h3>
+                        <p>${t.projectsEmptyMessage}</p>
+                        <button class="btn-outline" onclick="document.getElementById('contactCta').click();">
+                            ${t.projectsEmptyCta} →
                         </button>
                     </div>
                 `;
             } else {
-                grid.innerHTML = projects.map(p => `
-                    <div class="project-card">
-                        <div class="project-image">${p.emoji || '💻'}</div>
-                        <div class="project-content">
-                            <h3 class="project-title">${p.title}</h3>
-                            <p class="project-description">${currentLanguage === 'pt' ? p.description : (p.description_en || p.description)}</p>
-                            ${p.technologies ? `
-                                <div class="project-technologies">
-                                    ${p.technologies.map(tech => `<span class="tech-badge">${tech}</span>`).join('')}
-                                </div>
-                            ` : ''}
-                        </div>
-                        ${(p.github || p.demo) ? `
-                            <div class="project-footer">
-                                ${p.github ? `<a href="${p.github}" target="_blank" rel="noopener" class="project-link">GitHub</a>` : ''}
-                                ${p.demo ? `<a href="${p.demo}" target="_blank" rel="noopener" class="project-link">Demo</a>` : ''}
+                projectsGrid.innerHTML = projects.map(p => {
+                    const desc = currentLanguage === 'pt' ? p.description : (p.description_en || p.description);
+                    return `
+                        <div class="project-card-premium">
+                            <div class="card-header">
+                                <span class="project-icon">${p.emoji || '💻'}</span>
+                                ${p.type ? `<span class="project-type">${p.type}</span>` : ''}
                             </div>
-                        ` : ''}
-                    </div>
-                `).join('');
+                            <div class="card-body">
+                                <h3>${p.title}</h3>
+                                <p>${desc}</p>
+                            </div>
+                            <div class="card-footer">
+                                ${p.technologies ? p.technologies.map(t => `<span class="tech-badge-premium">${t}</span>`).join('') : ''}
+                            </div>
+                            <div style="padding: 0 1.5rem 1.5rem; display: flex; gap: 0.8rem;">
+                                ${p.github ? `<a href="${p.github}" target="_blank" rel="noopener" class="project-link-premium">🔗 GitHub</a>` : ''}
+                                ${p.demo ? `<a href="${p.demo}" target="_blank" rel="noopener" class="project-link-premium">🌐 Demo</a>` : ''}
+                            </div>
+                        </div>
+                    `;
+                }).join('');
             }
         }
 
@@ -1006,21 +1371,23 @@
         function updateTheme() {
             const isDark = currentTheme === 'dark';
             document.body.classList.toggle('light-mode', !isDark);
-            const icon = document.querySelector('#darkModeToggle .icon');
-            const text = document.getElementById('modeText');
-            const t = content[currentLanguage];
-            
             icon.textContent = isDark ? '🌙' : '☀️';
-            text.textContent = isDark ? t.darkMode : t.lightMode;
+            const t = content[currentLanguage];
+            modeText.textContent = isDark ? t.darkMode : t.lightMode;
         }
 
-        // Event listeners
-        document.getElementById('darkModeToggle').addEventListener('click', () => {
+        // ============================================================
+        // EVENT LISTENERS
+        // ============================================================
+
+        // Theme toggle
+        darkToggle.addEventListener('click', () => {
             currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
             localStorage.setItem('theme', currentTheme);
             updateTheme();
         });
 
+        // Language buttons
         document.querySelectorAll('.lang-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 currentLanguage = btn.dataset.lang;
@@ -1030,12 +1397,14 @@
             });
         });
 
-        const modal = document.getElementById('contactModal');
-        document.getElementById('contactCta').addEventListener('click', () => {
+        // Modal
+        contactCta.addEventListener('click', (e) => {
+            e.preventDefault();
             modal.style.display = 'flex';
+            successMsg.style.display = 'none';
         });
 
-        document.getElementById('formCancel').addEventListener('click', () => {
+        formCancel.addEventListener('click', () => {
             modal.style.display = 'none';
         });
 
@@ -1045,98 +1414,99 @@
             }
         });
 
-        document.getElementById('linkedinLink').addEventListener('click', (e) => {
+        // LinkedIn placeholder
+        $('linkedinLink').addEventListener('click', (e) => {
             e.preventDefault();
             const msg = currentLanguage === 'pt' ? 'Perfil do LinkedIn em breve!' : 'LinkedIn profile coming soon!';
             alert(msg);
         });
 
-        // Initialize
-        updateUI();
-        updateTheme();
-    </script>
-
-    <!-- Hero Canvas Animation -->
-    <script>
-        (function(){
-            const canvas = document.getElementById('heroCanvas');
-            if (!document.querySelector('.canvas-hero')) return;
-            const ctx = canvas.getContext('2d');
-            let particles = [];
-
-            function resize() {
-                const rect = canvas.getBoundingClientRect();
-                canvas.width = Math.floor(rect.width * devicePixelRatio);
-                canvas.height = Math.floor(rect.height * devicePixelRatio);
-                ctx.scale(devicePixelRatio, devicePixelRatio);
-            }
-
-            function rand(min, max){ return Math.random() * (max - min) + min; }
-
-            function createParticles(count){
-                particles = [];
-                const rect = canvas.getBoundingClientRect();
-                for(let i=0;i<count;i++){
-                    particles.push({
-                        x: rand(0, rect.width),
-                        y: rand(rect.height, rect.height + 100),
-                        size: rand(1,4),
-                        speed: rand(0.2, 1.0),
-                        hue: rand(20, 45),
-                        alpha: rand(0.3, 0.9)
-                    });
-                }
-            }
-
-            function draw(){
-                const rect = canvas.getBoundingClientRect();
-                ctx.clearRect(0,0,rect.width, rect.height);
-                particles.forEach(p => {
-                    p.y -= p.speed;
-                    p.x += Math.sin(p.y * 0.01) * 0.3;
-                    p.alpha -= 0.001;
-                    if (p.y < -10 || p.alpha <= 0) {
-                        p.x = rand(0, rect.width);
-                        p.y = rand(rect.height, rect.height + 100);
-                        p.alpha = rand(0.3,0.9);
-                    }
-                    ctx.beginPath();
-                    ctx.fillStyle = `hsla(${p.hue},100%,55%,${p.alpha})`;
-                    ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
-                    ctx.fill();
+        // ============================================================
+        // FORM SUBMISSION
+        // ============================================================
+        $('contactForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const btn = formSubmit;
+            const originalText = btn.textContent;
+            
+            btn.textContent = currentLanguage === 'pt' ? 'Enviando...' : 'Sending...';
+            btn.disabled = true;
+            successMsg.style.display = 'none';
+            
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: { 'Accept': 'application/json' }
                 });
+                
+                if (response.ok) {
+                    successMsg.textContent = currentLanguage === 'pt' ? '✅ Mensagem enviada com sucesso!' : '✅ Message sent successfully!';
+                    successMsg.style.display = 'block';
+                    form.reset();
+                } else {
+                    throw new Error('Erro');
+                }
+            } catch (error) {
+                successMsg.textContent = currentLanguage === 'pt' ? '❌ Erro ao enviar. Tente novamente.' : '❌ Error sending. Try again.';
+                successMsg.style.display = 'block';
+                successMsg.style.background = '#e74c3c';
+            } finally {
+                btn.textContent = originalText;
+                btn.disabled = false;
+                setTimeout(() => {
+                    successMsg.style.display = 'none';
+                    successMsg.style.background = '#4caf50';
+                }, 5000);
             }
+        });
 
-            function loop(){
-                draw();
-                requestAnimationFrame(loop);
-            }
-
-            function init(){
-                resize();
-                createParticles(80);
-                loop();
-            }
-
-            window.addEventListener('resize', () => {
-                clearTimeout(window.__hero_resize);
-                window.__hero_resize = setTimeout(() => {
-                    resize();
-                    createParticles(80);
-                }, 150);
+        // ============================================================
+        // SCROLL ANIMATIONS (Intersection Observer)
+        // ============================================================
+        function setupScrollAnimations() {
+            const elements = document.querySelectorAll('.tech-item-premium, .project-card-premium, .education-premium');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
             });
 
-            setTimeout(init, 50);
-        })();
-    </script>
+            elements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+                observer.observe(el);
+            });
 
-    <!-- Header Canvas Animation -->
-    <script>
-        (function(){
-            const canvas = document.getElementById('headerCanvas');
+            // Also observe empty state
+            const emptyState = document.querySelector('.empty-state-premium');
+            if (emptyState) {
+                emptyState.style.opacity = '0';
+                emptyState.style.transform = 'translateY(30px)';
+                emptyState.style.transition = 'opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+                observer.observe(emptyState);
+            }
+        }
+
+        // ============================================================
+        // CANVAS ANIMATIONS
+        // ============================================================
+        function initCanvas(id, particleCount, opts = {}) {
+            const canvas = document.getElementById(id);
             if (!canvas) return;
             const ctx = canvas.getContext('2d');
             let particles = [];
+            let animId = null;
+            const { hueRange = [15, 45], speed = 0.3, sizeRange = [0.8, 2.5] } = opts;
 
             function resize() {
                 const rect = canvas.getBoundingClientRect();
@@ -1145,27 +1515,27 @@
                 ctx.scale(devicePixelRatio, devicePixelRatio);
             }
 
-            function rand(min, max){ return Math.random() * (max - min) + min; }
+            function rand(min, max) { return Math.random() * (max - min) + min; }
 
-            function createParticles(count){
+            function createParticles(count) {
                 particles = [];
                 const rect = canvas.getBoundingClientRect();
-                for(let i=0;i<count;i++){
+                for (let i = 0; i < count; i++) {
                     particles.push({
                         x: rand(0, rect.width),
                         y: rand(-50, rect.height),
-                        size: rand(0.8, 2.5),
+                        size: rand(sizeRange[0], sizeRange[1]),
                         speedX: rand(-0.3, 0.3),
                         speedY: rand(-0.5, 0),
-                        hue: rand(15, 40),
+                        hue: rand(hueRange[0], hueRange[1]),
                         alpha: rand(0.2, 0.6)
                     });
                 }
             }
 
-            function draw(){
+            function draw() {
                 const rect = canvas.getBoundingClientRect();
-                ctx.clearRect(0,0,rect.width, rect.height);
+                ctx.clearRect(0, 0, rect.width, rect.height);
                 particles.forEach(p => {
                     p.y -= p.speedY;
                     p.x += p.speedX;
@@ -1177,32 +1547,46 @@
                     }
                     ctx.beginPath();
                     ctx.fillStyle = `hsla(${p.hue},100%,55%,${p.alpha})`;
-                    ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
                     ctx.fill();
                 });
+                animId = requestAnimationFrame(draw);
             }
 
-            function loop(){
-                draw();
-                requestAnimationFrame(loop);
-            }
-
-            function init(){
+            function init() {
                 resize();
-                createParticles(40);
-                loop();
+                createParticles(particleCount);
+                if (animId) cancelAnimationFrame(animId);
+                draw();
             }
 
-            window.addEventListener('resize', () => {
-                clearTimeout(window.__header_resize);
-                window.__header_resize = setTimeout(() => {
+            const debounceResize = () => {
+                clearTimeout(window.__canvas_resize);
+                window.__canvas_resize = setTimeout(() => {
                     resize();
-                    createParticles(40);
+                    createParticles(particleCount);
                 }, 150);
-            });
+            };
 
+            window.addEventListener('resize', debounceResize);
             setTimeout(init, 50);
-        })();
+        }
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        updateUI();
+        setupScrollAnimations();
+        initCanvas('headerCanvas', 40, { hueRange: [15, 45] });
+
+        // Theme transition for smooth color changes
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.style.transition = 'background-color 0.4s ease, color 0.4s ease';
+        });
+
+        console.log('🚀 Portfolio Rafael Henrique · Production Ready');
+        console.log('📧 Contato: rafael@example.com');
+        console.log('🐙 GitHub: github.com/rafaelwhenrique');
     </script>
 </body>
 
